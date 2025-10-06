@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Preface (Accounting Utilities Manual)</title>
+
+<meta name="description" content="Preface (Accounting Utilities Manual)">
+<meta name="keywords" content="Preface (Accounting Utilities Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="ac.html" rel="next" title="ac">
+<link href="index.html" rel="prev" title="Top">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumbered-level-extent" id="Preface">
+<div class="nav-panel">
+<p>
+Next: <a href="ac.html" accesskey="n" rel="next"><code class="code">ac</code></a>, Previous: <a href="index.html" accesskey="p" rel="prev">Top</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h2 class="unnumbered" id="Preface-1"><span>Preface<a class="copiable-link" href="#Preface-1"> &para;</a></span></h2>
+
+<p>Way back a long time ago, Thompson and Ritchie were sitting opposite one
+another at the commissary, sipping coffees and discussing their evolving
+behemoth.
+</p>
+<p>&ldquo;This behemoth of ours,&rdquo; said Ken, &ldquo;is becoming rather popular,
+wouldn&rsquo;t you say?&rdquo;  &ldquo;Yes,&rdquo; said Dennis.  &ldquo;Every time I want to do a
+compilation, I have to wait for hours and hours.  It&rsquo;s infuriating.&rdquo;
+They both agreed that the load on their system was too great.  Both
+sighed, picked up their mugs, and went back to the workbench.  Little
+did they know that an upper-management type was sitting just within
+earshot of their conversation.
+</p>
+<p>&ldquo;We are AT&amp;T Bell Laboratories, aren&rsquo;t we?&rdquo; the upper-management type
+thought to himself.  &ldquo;Well, what is our organization best known for?&rdquo;
+The brill-cream in his hair glistened.  &ldquo;Screwing people out of lots of
+money, of course!  If there were some way that we could keep tabs on
+users and charge them through the nose for their CPU time...&rdquo;
+</p>
+<p>The accounting utilities were born.
+</p>
+<p>Seriously though, the accouting utilities can provide a system
+administrator with useful information about system usage&mdash;connections,
+programs executed, and utilization of system resources.
+</p>
+<p>Information about users&mdash;their connect time, location, programs
+executed, and the like&mdash;is automatically recored in files by
+<code class="code">init</code> and <code class="code">login</code>.  Four of them are of interest to us:
+<code class="code">wtmp</code>, which has records for each login and logout;
+<code class="code">acct</code>, which records each command that was run;
+<code class="code">usracct</code> and <code class="code">savacct</code>, which contain
+summaries of the information in <code class="code">acct</code> by user and
+command, respectively.  Each of the accounting utilities reports or
+summarizes information stored in these files.
+</p>
+<dl class="table">
+<dt><code class="code">ac</code></dt>
+<dd><p>prints statistics about users&rsquo; connect time.  <code class="code">ac</code> can tell you how
+long a particular user or group of users were connected to your system,
+printing totals by day or for all of the entries in the
+<code class="code">wtmp</code> file.
+</p>
+</dd>
+<dt><code class="code">accton</code></dt>
+<dd><p>turns accounting on or off.
+</p>
+</dd>
+<dt><code class="code">lastcomm</code></dt>
+<dd><p>lists the commands executed on the system, most recent first, showing
+the run state of each command.  With <code class="code">last</code>, you can search the
+<code class="code">acct</code> file for a particular user, terminal, or command.
+</p>
+</dd>
+<dt><code class="code">sa</code></dt>
+<dd><p>summarizes the information in the <code class="code">acct</code> file into the
+<code class="code">savacct</code> and <code class="code">usracct</code> file.  It also
+generates reports about commands, giving the number of invocations, cpu
+time used, average core usage, etc.
+</p>
+</dd>
+<dt><code class="code">dump-acct</code></dt>
+<dt><code class="code">dump-utmp</code></dt>
+<dd><p>display <code class="code">acct</code> and <code class="code">utmp</code> files in a human-readable format.
+</p>
+</dd>
+</dl>
+
+<p>For more detailed information on any of these programs, check the
+chapter with the program title.
+</p>
+<ul class="mini-toc">
+<li><a href="#A-Note-on-File-Names-and-Locations" accesskey="1">A Note on File Names and Locations</a></li>
+<li><a href="#Support-for-Multiple-Accounting-File-Formats-under-Linux" accesskey="2">Support for Multiple Accounting File Formats under Linux</a></li>
+<li><a href="#History-of-the-Accounting-Utilities" accesskey="3">History of the Accounting Utilities</a></li>
+</ul>
+<div class="unnumberedsec-level-extent" id="A-Note-on-File-Names-and-Locations">
+<h3 class="unnumberedsec"><span>A Note on File Names and Locations<a class="copiable-link" href="#A-Note-on-File-Names-and-Locations"> &para;</a></span></h3>
+
+<p>The <code class="code">wtmp</code> and <code class="code">acct</code> files seem to live in different places
+and have different names for every variant of u*x that exists.  The name
+<code class="code">wtmp</code> seems to be standard for the login accounting file, but the
+process accounting file might be <code class="code">acct</code> or <code class="code">pacct</code> on your
+system.  To find the actual locations and names of these files on your
+system, specify the <code class="code">--help</code> flag to any of the programs in this
+package and the information will dumped to standard output.
+</p>
+<p>Regardless of the names and locations of files on your system, this
+manual will refer to the login accounting file as <code class="code">wtmp</code> and the
+process accounting files as <code class="code">acct</code>, <code class="code">savacct</code>, and
+<code class="code">usracct</code>.
+</p>
+</div>
+<div class="unnumberedsec-level-extent" id="Support-for-Multiple-Accounting-File-Formats-under-Linux">
+<h3 class="unnumberedsec"><span>Support for Multiple Accounting File Formats under Linux<a class="copiable-link" href="#Support-for-Multiple-Accounting-File-Formats-under-Linux"> &para;</a></span></h3>
+
+<p>The detailed format of the <code class="code">acct</code> file written by the Linux kernel
+varies depending on the kernel&rsquo;s version and configuration:
+Linux kernels 2.6.7 and earlier write a v0 format <code class="code">acct</code> file
+which unfortunately cannot store user and group ids (<code class="code">uid</code>/<code class="code">gid</code>)
+larger than 65535.
+Kernels 2.6.8 and later write the <code class="code">acct</code> file in v1, v2 or v3 formats.
+(v3 if <code class="code">BSD_PROCESS_ACCT_V3</code> is selected in the kernel configuration,
+otherwise v1 if on the m68k architecture or v2 everywhere else).
+</p>
+<p>Since version 6.4 the GNU accounting utilities on Linux systems are
+able to read all of the v0, v2 and v3 file formats (v1 is not supported).
+Thus you do not need to worry about the details given above. You can even
+read <code class="code">acct</code> files where different records were written by differently
+configured kernels (you can find out about the format of each entry by
+using the <code class="code">dump-acct</code> utility). In case you ever need to convert
+an <code class="code">acct</code> file to a different format, the <code class="code">--raw</code> option of
+<code class="code">dump-acct</code> does that together with the new <code class="code">--format</code> and
+<code class="code">--byteswap</code> options that determine format and byte order of the
+output file.
+</p>
+<p>Multiformat support under Linux is intended to be a temporary solution
+to aid in switching to the v3 <code class="code">acct</code> file format. So do not expect
+GNU acct 6.7 to still contain Multiformat support. In a few years
+time, when everybody uses the v3 format, the ability to read multiple
+formats at runtime will probably be dropped again from the GNU accounting
+utilities.
+This does not, however, affect the ability to adapt to the <code class="code">acct</code> file
+format at compile time (when <code class="code">./configure</code> is run). Even GNU acct 6.3.5
+(that does not know about multiple file formats) will yield working binary
+programs when compiled under a (as yet hypothetical) Linux kernel 2.6.62
+that is only able to write the v3 format.
+</p>
+</div>
+<div class="unnumberedsec-level-extent" id="History-of-the-Accounting-Utilities">
+<h3 class="unnumberedsec"><span>History of the Accounting Utilities<a class="copiable-link" href="#History-of-the-Accounting-Utilities"> &para;</a></span></h3>
+
+<p>I don&rsquo;t have any idea who originally wrote these utilities.  If anybody
+does, please send some mail to <code class="code">noel@gnu.ai.mit.edu</code> and I&rsquo;ll add
+your information here!
+</p>
+<p>Since the first alpha versions of this software in late 1993, many
+people have contributed to the package.  They are (in alphabetical
+order):
+</p>
+
+<dl class="table">
+<dt><code class="code">Eric Backus &lt;ericb@lsid.hp.com&gt;</code></dt>
+<dd><p>Suggested fixes for HP-UX 9.05 using /bin/cc: configure assumed you were
+using <code class="code">gcc</code> and tacked on <code class="code">-Wall</code> etc.  He also noticed that
+<code class="code">file_rd.c</code> was doing pointer arithmetic on a <code class="code">void *</code> pointer
+(non-ANSI).
+</p>
+</dd>
+<dt><code class="code">Christoph Badura &lt;bad@flatlin.ka.sub.org&gt;</code></dt>
+<dd><p>Christoph was a BIG HELP in computing statistics, most notably k*sec
+stuff!  He also did Xenix testing and contributed some Makefile fixes
+and output optimizations.
+</p>
+</dd>
+<dt><code class="code">Michael Calwas &lt;calwas@ttd.teradyne.com&gt;</code></dt>
+<dd><p>Fixed bugs in mktime.c.
+</p>
+</dd>
+<dt><code class="code">Derek Clegg &lt;dclegg@apple.com&gt;</code></dt>
+<dd><p>Suggested the simple, elegant fix for *_rd_never_used brain-damage.
+</p>
+</dd>
+<dt><code class="code">Alan Cox &lt;iiitac@pyr.swan.ac.uk&gt;</code></dt>
+<dd><p>Original Linux kernel accounting patches.
+</p>
+</dd>
+<dt><code class="code">Scott Crosby &lt;root@hypercube.res.cmu.edu&gt;</code></dt>
+<dd><p>Suggested idea behind <code class="code">--sort-real-time</code> for <code class="code">sa</code>.
+</p>
+</dd>
+<dt><code class="code">Solar Designer &lt;solar@false.com&gt;</code></dt>
+<dd><p>Added code for <code class="code">--ahz</code> flag in <code class="code">lastcomm</code> and <code class="code">sa</code>.
+</p>
+</dd>
+<dt><code class="code">Dirk Eddelbuettel &lt;edd@miles.econ.queensu.ca&gt;</code></dt>
+<dd><p>Managed bug-fixes &amp; etc. for Debian distribution, as well as the
+architect of merge of GNU + Debian distributions.  A big thanks to Dirk
+for kicking me back into gear again after a long period of no work on
+this project.
+</p>
+</dd>
+<dt><code class="code">Jason Grant &lt;jamalcol@pc-5530.bc.rogers.wave.ca&gt;</code></dt>
+<dd><p>Identified a buffer-overrun bug in <code class="code">sa</code>.
+</p>
+</dd>
+<dt><code class="code">Kaveh R. Ghazi &lt;ghazi@caip.rutgers.edu&gt;</code></dt>
+<dd><p>Tested the package on many systems with compilers other than gcc.  Fixed
+K&amp;R C support.
+</p>
+</dd>
+<dt><code class="code">Susan Kleinmann &lt;sgk@sgk.tiac.net&gt;</code></dt>
+<dd><p>Contributed excellent man pages!
+</p>
+</dd>
+<dt><code class="code">Alexander Kourakos &lt;Alexander@Kourakos.com&gt;</code></dt>
+<dd><p>Inspired the <code class="code">--wide</code> option for <code class="code">last</code>.
+</p>
+</dd>
+<dt><code class="code">Marek Michalkiewicz &lt;marekm@i17linuxb.ists.pwr.wroc.pl&gt;</code></dt>
+<dd><p>Suggested the <code class="code">--ip-address</code> flag for <code class="code">last</code>.
+</p>
+</dd>
+<dt><code class="code">David S. Miller &lt;davem@caip.rutgers.edu&gt;</code></dt>
+<dd><p>Noticed missing GNU-standard makefile rules.
+</p>
+</dd>
+<dt><code class="code">Walter Mueller &lt;walt@pi4.informatik.uni-mannheim.de&gt;</code></dt>
+<dd><p>Noticed install target was missing, and corrected a typo for prefix in
+Makefile.in.
+</p>
+</dd>
+<dt><code class="code">Ian Murdock &lt;imurdock@gnu.ai.mit.edu&gt;</code></dt>
+<dd><p>Tracked down miscellaneous bugs in sa.c under Linux.  Added Debian
+package maintenance files.
+</p>
+</dd>
+<dt><code class="code">Tuomo Pyhala &lt;tuomo@lesti.kpnet.fi&gt;</code></dt>
+<dd><p>Reported buggy <code class="code">--strict-match</code> flag in <code class="code">lastcomm</code>.
+</p>
+</dd>
+<dt><code class="code">Tim Schmielau &lt;tim@physik3.uni-rostock.de&gt;</code></dt>
+<dd><p>Added Linux multiformat support.
+</p>
+</dd>
+<dt><code class="code">Luc I. Suryo &lt;root@patriots.nl.mugnet.org&gt;</code></dt>
+<dd><p>Suggested the <code class="code">--user</code> flag for <code class="code">lastcomm</code>.
+</p>
+</dd>
+<dt><code class="code">Pedro A M Vazquez &lt;vazquez@iqm.unicamp.br&gt;</code></dt>
+<dd><p>Fixed bugs in sa.c and tested under FreeBSD.
+</p>
+</dd>
+<dt><code class="code">Marco van Wieringen &lt;Marco.van.Wieringen@mcs.nl.mugnet.org&gt;</code></dt>
+<dd><p>Modified (wrote?) Linux kernel accounting patches.
+</p></dd>
+</dl>
+
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="ac.html"><code class="code">ac</code></a>, Previous: <a href="index.html">Top</a>, Up: <a href="index.html">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ac (Accounting Utilities Manual)</title>
+
+<meta name="description" content="ac (Accounting Utilities Manual)">
+<meta name="keywords" content="ac (Accounting Utilities Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="accton.html" rel="next" title="accton">
+<link href="Preface.html" rel="prev" title="Preface">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter-level-extent" id="ac">
+<div class="nav-panel">
+<p>
+Next: <a href="accton.html" accesskey="n" rel="next"><code class="code">accton</code></a>, Previous: <a href="Preface.html" accesskey="p" rel="prev">Preface</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h2 class="chapter" id="ac-1"><span>1 <code class="code">ac</code><a class="copiable-link" href="#ac-1"> &para;</a></span></h2>
+<a class="index-entry-id" id="index-ac"></a>
+<a class="index-entry-id" id="index-connect-time"></a>
+
+<p>The <code class="code">ac</code> command prints out a report of connect time (in hours)
+based on the logins/logouts in the current <code class="code">wtmp</code> file.
+A total is also printed out.
+</p>
+<p>The accounting file <code class="code">wtmp</code> is maintained by <code class="code">init</code>
+and <code class="code">login</code>.  Neither of these programs creates the file; if the
+file is not there, no accounting is done.  To begin accounting, create
+the file with a length of zero. Note that the
+<code class="code">wtmp</code> file can get really big, really fast.  You might
+want to trim it every once and a while.
+</p>
+<p>GNU <code class="code">ac</code> works nearly the same u*x <code class="code">ac</code>, though it&rsquo;s a little
+smarter in its printing out of daily totals&mdash;it actually prints
+<em class="emph">every</em> day, rather than skipping to the date of the next entry in
+the <code class="code">wtmp</code> file.
+</p>
+<ul class="mini-toc">
+<li><a href="#Flags" accesskey="1">Flags</a></li>
+<li><a href="#Problems" accesskey="2">Problems</a></li>
+</ul>
+<div class="section-level-extent" id="Flags">
+<h3 class="section"><span>1.1 Flags<a class="copiable-link" href="#Flags"> &para;</a></span></h3>
+
+<p>All of the original <code class="code">ac</code>&rsquo;s options have been implemented, and a few have
+been added.  Normally, when <code class="code">ac</code> is invoked, the output looks like
+this:
+</p><div class="example">
+<pre class="example-preformatted">        total 93867.14
+</pre></div>
+<p>where total is the number of hours of connect time for every entry in
+the <code class="code">wtmp</code> file.  The rest of the flags modify the
+output in one way or another.
+</p>
+<dl class="table">
+<dt><code class="code">-d</code></dt>
+<dt><code class="code">--daily-totals</code></dt>
+<dd><p>Print totals for each day rather than just one big total at the end.
+The output looks like this:
+</p><div class="example">
+<pre class="example-preformatted">Jul  3  total     1.17
+Jul  4  total     2.10
+Jul  5  total     8.23
+Jul  6  total     2.10
+Jul  7  total     0.30
+</pre></div>
+
+</dd>
+<dt><code class="code">-p</code></dt>
+<dt><code class="code">--individual-totals</code></dt>
+<dd><p>Print time totals for each user in addition to the usual
+everything-lumped-into-one value.  It looks like:
+</p><div class="example">
+<pre class="example-preformatted">        bob       8.06
+        goff      0.60
+        maley     7.37
+        root      0.12
+        total    16.15
+</pre></div>
+
+</dd>
+<dt><code class="code"><var class="var">people</var></code></dt>
+<dd><p>Print out the sum total of the connect time used by all of the users
+included in people.  Note that people is a space separated list of valid
+user names; wildcards are not allowed.
+</p>
+</dd>
+<dt><code class="code">-f <var class="var">filename</var></code></dt>
+<dt><code class="code">--file <var class="var">filename</var></code></dt>
+<dd><p>Read from the file <var class="var">filename</var> instead of the system&rsquo;s
+<code class="code">wtmp</code> file.
+</p>
+</dd>
+<dt><code class="code">--complain</code></dt>
+<dd><p>When the <code class="code">wtmp</code> file has a problem (a time-warp, missing
+record, or whatever), print out an appropriate error.
+</p>
+</dd>
+<dt><code class="code">--reboots</code></dt>
+<dd><p>Reboot records are <em class="emph">not</em> written at the time of a reboot, but when
+the system restarts; therefore, it is impossible to know <var class="var">exactly</var>
+when the reboot occurred.  Users may have been logged into the system at
+the time of the reboot, and many <code class="code">ac</code>&rsquo;s automatically count the
+time between the login and the reboot record against the user (even
+though all of that time <em class="emph">shouldn&rsquo;t</em> be, perhaps, if the system is
+down for a long time, for instance).  If you want to count this time,
+include the flag.  <strong class="strong">To make <code class="code">ac</code> behave like the one that
+was distributed with your OS, include this flag.</strong>
+</p>
+</dd>
+<dt><code class="code">--supplants</code></dt>
+<dd><p>Sometimes a logout record is not written for a specific terminal, so the
+time that the last user accrued cannot be calculated.  If you want to
+include the time from the user&rsquo;s login to the next login on the terminal
+(though probably incorrect), include this flag.  <strong class="strong">To make
+<code class="code">ac</code> behave like the one that was distributed with your OS, include
+this flag.</strong>
+</p>
+</dd>
+<dt><code class="code">--timewarps</code></dt>
+<dd><p>Sometimes, entries in a <code class="code">wtmp</code> file will suddenly jump
+back into the past without a clock change record occurring.  It is
+impossible to know how long a user was logged in when this occurs.  If
+you want to count the time between the login and the time warp against
+the user, include this flag.  <strong class="strong">To make <code class="code">ac</code> behave like the
+one that was distributed with your OS, include this flag.</strong>
+</p>
+</dd>
+<dt><code class="code">--compatibility</code></dt>
+<dd><p>This is shorthand for typing out the three above options.
+</p>
+</dd>
+<dt><code class="code">-a</code></dt>
+<dt><code class="code">--all-days</code></dt>
+<dd><p>If we&rsquo;re printing daily totals, print a record for every day instead of
+skipping intervening days where there is no login activity.  Without
+this flag, time accrued during those intervening days gets listed under
+the next day where there is login activity.
+</p>
+</dd>
+<dt><code class="code">-y</code></dt>
+<dt><code class="code">--print-year</code></dt>
+<dd><p>Print out the year when displaying dates.
+</p>
+</dd>
+<dt><code class="code">--print-zeros</code></dt>
+<dd><p>If a total for any category (save the grand total) is zero, print it.
+The default is to suppress printing.
+</p>
+</dd>
+<dt><code class="code">--debug</code></dt>
+<dd><p>Print verbose internal information.
+</p>
+</dd>
+<dt><code class="code">--tw-leniency <var class="var">value</var></code></dt>
+<dd><p>Set the time warp leniency value (in seconds).  Records in
+<code class="code">wtmp</code> files might be slightly out of order (most
+notably when two logins occur within a one-second period &ndash; the second
+one gets written first).  By default, this value is set to 1 second.
+Some <code class="code">wtmp</code>&rsquo;s are really screwed up (Suns) and require a
+larger value here.  If the program notices this problem, time is not
+assigned to users unless the <code class="code">--timewarps</code> flag is used.  See the
+Problems section for more information.
+</p>
+</dd>
+<dt><code class="code">--tw-suspicious <var class="var">value</var></code></dt>
+<dd><p>Set the time warp suspicious value (in seconds).  If two records in the
+<code class="code">wtmp</code> file are farther than this number of seconds
+apart, there is a problem with the wtmp file (or your machine
+hasn&rsquo;t been used in a year).  If the program notices this problem, time
+is not assigned to users unless the <code class="code">--timewarps</code> flag is used.
+</p>
+</dd>
+<dt><code class="code">-V</code></dt>
+<dt><code class="code">--version</code></dt>
+<dd><p>Print <code class="code">ac</code>&rsquo;s version number.
+</p>
+</dd>
+<dt><code class="code">-h</code></dt>
+<dt><code class="code">--help</code></dt>
+<dd><p>Print <code class="code">ac</code>&rsquo;s usage string and default locations of system files to
+standard output.
+</p></dd>
+</dl>
+
+</div>
+<div class="section-level-extent" id="Problems">
+<h3 class="section"><span>1.2 Problems<a class="copiable-link" href="#Problems"> &para;</a></span></h3>
+
+<p>For no fault of <code class="code">ac</code>&rsquo;s, if two logins occur at the same time
+(within a second of each other), each <code class="code">login</code> process will try to
+write an entry to the <code class="code">wtmp</code> file.  With file system
+overhead, it is forseeable that the entries would get written in the
+wrong order.  GNU <code class="code">ac</code> automatically compensates for this, but some
+other <code class="code">ac</code>s may not...  beware.
+</p>
+<ul class="mini-toc">
+<li><a href="#The-FTP-Problem" accesskey="1">The FTP Problem</a></li>
+</ul>
+<div class="unnumberedsubsec-level-extent" id="The-FTP-Problem">
+<h4 class="unnumberedsubsec"><span>The FTP Problem<a class="copiable-link" href="#The-FTP-Problem"> &para;</a></span></h4>
+
+<p>I&rsquo;ve tested the standard <code class="code">ac</code> in Ultrix 4.2 (DECstation/DECsystem),
+SunOS 4.1.1 (Sun3, Sun4, Sparc), Mach 2.5 (Omron/Luna), and DomainOS
+10.3 (DN3500).  All of these <code class="code">ac</code>s have trouble parsing entries in
+which the line is <code class="code">ftp</code><var class="var">xxxx</var> (<var class="var">xxxx</var> being some number).
+Whenever these <code class="code">ac</code>s see one of these entries, they log everyone
+out at the time of the entry.
+</p>
+<p><strong class="strong">HOW IT HAPPENS:</strong> if there is a user logged into the machine when
+an ftp connection occurs, (minimally) you&rsquo;ll get a login record for the
+user, a login record for the ftp connection, and the logouts for both
+afterwards (in either order).
+</p>
+<p><strong class="strong">TANGIBLE RESULT:</strong> the user who was logged in gets &rsquo;logged out&rsquo;
+at the time the ftp connection begins, and none of the time spent during
+or after the ftp connection.  Therefore, when you run GNU <code class="code">ac</code>,
+the totals will most likely be greater than those of your system&rsquo;s
+<code class="code">ac</code> (provided you specify the other flags that will make GNU
+<code class="code">ac</code> behave like the system&rsquo;s).
+</p>
+<ul class="mini-toc">
+<li><a href="#The-Shutdown_002fReboot-Problem" accesskey="1">The Shutdown/Reboot Problem</a></li>
+<li><a href="#Stupid-System-V-Machines" accesskey="2">Stupid System V Machines</a></li>
+</ul>
+<div class="unnumberedsubsubsec-level-extent" id="The-Shutdown_002fReboot-Problem">
+<h4 class="unnumberedsubsubsec"><span>The Shutdown/Reboot Problem<a class="copiable-link" href="#The-Shutdown_002fReboot-Problem"> &para;</a></span></h4>
+
+<p>On Suns, <code class="code">init</code> is a little screwed up.  For some reason, after a
+shutdown record is written, a reboot record is written with a time-stamp
+<em class="emph">before</em> the shutdown (less than 30 seconds, usually).
+</p>
+<p><strong class="strong">TANGIBLE RESULT:</strong> GNU <code class="code">ac</code> will notice the problem, log
+everyone out (you can specify if you want the time to be added to the
+user&rsquo;s total) and begin a new day entry based on the time of the
+out-of-sync record.  If you try to print out daily totals, you&rsquo;ll notice
+that some days might have two or more entries.
+</p>
+<p><strong class="strong">SOLUTION:</strong> To fix this, a timewarp leniency value has been
+implemented.  If any record is out of order by this number of seconds
+(defaults to 60) it gets ignored.  If you need to change this value (if
+you think the totals are off because the value is too high), you can
+change it using the &lsquo;<samp class="samp">--timewarp-value</samp>&rsquo; flag.  The rationale for the
+60 second default is that of all of the machines with this problem, the
+largest timewarp was 45.
+</p>
+</div>
+<div class="unnumberedsubsubsec-level-extent" id="Stupid-System-V-Machines">
+<h4 class="unnumberedsubsubsec"><span>Stupid System V Machines<a class="copiable-link" href="#Stupid-System-V-Machines"> &para;</a></span></h4>
+
+<p>Some <code class="code">ac</code>&rsquo;s on System V machines (I&rsquo;ve tried SGI Indigo &amp; SGI Indy)
+forget to pay attention to the <code class="code">ut_type</code> field in a <code class="code">struct
+utmp</code>.  As such, they chalk up a lot of time to non-existant processes
+called <code class="code">LOGIN</code> or <code class="code">runlevel</code>.  
+</p>
+<p><strong class="strong">TANGIBLE RESULT:</strong> The amount of total time reported by the
+system&rsquo;s <code class="code">ac</code> is <strong class="strong">really</strong> off.  Often, it&rsquo;s several times
+greater than what it should be.
+</p>
+<p><strong class="strong">SOLUTION:</strong> GNU <code class="code">ac</code> always pays attention to the
+<code class="code">ut_type</code> record, so there&rsquo;s no possibility of chalking up time to
+anything but user processes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="accton.html"><code class="code">accton</code></a>, Previous: <a href="Preface.html">Preface</a>, Up: <a href="index.html">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

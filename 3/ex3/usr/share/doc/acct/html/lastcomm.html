@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>lastcomm (Accounting Utilities Manual)</title>
+
+<meta name="description" content="lastcomm (Accounting Utilities Manual)">
+<meta name="keywords" content="lastcomm (Accounting Utilities Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="sa.html" rel="next" title="sa">
+<link href="accton.html" rel="prev" title="accton">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+ul.mark-minus {list-style-type: "\2212"}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter-level-extent" id="lastcomm">
+<div class="nav-panel">
+<p>
+Next: <a href="sa.html" accesskey="n" rel="next"><code class="code">sa</code></a>, Previous: <a href="accton.html" accesskey="p" rel="prev"><code class="code">accton</code></a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h2 class="chapter" id="lastcomm-1"><span>3 <code class="code">lastcomm</code><a class="copiable-link" href="#lastcomm-1"> &para;</a></span></h2>
+
+<p><code class="code">lastcomm</code> prints out information about previously executed
+commands.  If no arguments are specified, <code class="code">lastcomm</code> will print
+info about all of the commands in the <code class="code">acct</code> file (the
+record file).  If called with a command name, user name, or tty name,
+only records containing those items will be displayed.  For example, to
+find out which users used command &lsquo;<samp class="samp">a.out</samp>&rsquo; and which users were
+logged into &lsquo;<samp class="samp">tty0</samp>&rsquo;, type:
+</p>
+<p><code class="code">lastcomm a.out tty0</code>
+</p>
+<p>This will print any entry for which &lsquo;<samp class="samp">a.out</samp>&rsquo; or &lsquo;<samp class="samp">tty0</samp>&rsquo; matches
+in any of the record&rsquo;s fields (command, name, or tty).  If you want to
+find only items that match ALL of the arguments on the command line, you
+must use the &rsquo;&ndash;strict-match&rsquo; option.  For example, to list all of the
+executions of command &lsquo;<samp class="samp">a.out</samp>&rsquo; by user &lsquo;<samp class="samp">root</samp>&rsquo; on terminal
+&lsquo;<samp class="samp">tty0</samp>&rsquo;, type:
+</p>
+<p><code class="code">lastcomm --strict-match a.out root tty0</code>
+</p>
+<p>The order of the arguments is not important.
+</p>
+<p>For each entry the following information is printed:
+</p>
+<ul class="itemize mark-bullet">
+<li>command name of the process
+</li><li>flags, as recorded by the system accounting routines:
+<ul class="itemize mark-minus">
+<li><strong class="strong">S</strong> command executed by super-user
+</li><li><strong class="strong">F</strong> command executed after a fork but without a following exec
+</li><li><strong class="strong">C</strong> command run in PDP-11 compatibility mode (VAX only)
+</li><li><strong class="strong">D</strong> command terminated with the generation of a core file
+</li><li><strong class="strong">X</strong> command was terminated with the signal SIGTERM
+</li></ul>
+</li><li>the name of the user who ran the process
+</li><li>time the process started
+</li></ul>
+
+<ul class="mini-toc">
+<li><a href="#Flags-2" accesskey="1">Flags</a></li>
+</ul>
+<div class="section-level-extent" id="Flags-2">
+<h3 class="section"><span>3.1 Flags<a class="copiable-link" href="#Flags-2"> &para;</a></span></h3>
+
+<p>This program implements the features of regular u*x <code class="code">lastcomm</code> with
+a few extra flags.  When <code class="code">lastcomm</code> is invoked without arguments,
+the output looks like this:
+</p><div class="example">
+<pre class="example-preformatted">nslookup         jberman  ttypb      0.03 secs Tue Feb 16 19:23
+comsat           root     __         0.03 secs Tue Feb 16 19:19
+uptime           ctilburg __         0.11 secs Tue Feb 16 19:23
+sh          F    ctilburg __         0.02 secs Tue Feb 16 19:23
+sleep            ctilburg __         0.02 secs Tue Feb 16 19:22
+ls               noel     ttyp4      0.19 secs Tue Feb 16 19:23
+</pre></div>
+
+<dl class="table">
+<dt><code class="code">--strict-match</code></dt>
+<dd><p>Print only entries that match <em class="emph">all</em> of the arguments on the command
+line.
+</p>
+</dd>
+<dt><code class="code">--user <var class="var">name</var></code></dt>
+<dd><p>List records for user with <var class="var">name</var>.  This is useful if you&rsquo;re trying
+to match a username that happens to be the same as a command (e.g.,
+<code class="code">ed</code>).
+</p>
+</dd>
+<dt><code class="code">--command <var class="var">name</var></code></dt>
+<dd><p>List records for command <var class="var">name</var>.
+</p>
+</dd>
+<dt><code class="code">--tty <var class="var">name</var></code></dt>
+<dd><p>List records for tty <var class="var">name</var>.
+</p>
+</dd>
+<dt><code class="code">-f <var class="var">filename</var></code></dt>
+<dt><code class="code">--file <var class="var">filename</var></code></dt>
+<dd><p>Read from the file <var class="var">filename</var> instead of the system&rsquo;s
+<code class="code">acct</code> file.
+</p>
+</dd>
+<dt><code class="code">--ahz <var class="var">hz</var></code></dt>
+<dd><p>Use this flag to tell the program what <code class="code">AHZ</code> should be (in hertz).
+This option is useful if you are trying to view an <code class="code">acct</code> file
+created on another machine which has the same byte order and file format
+as your current machine, but has a different value for <code class="code">AHZ</code>.
+</p>
+</dd>
+<dt><code class="code">-p</code></dt>
+<dt><code class="code">--show-paging</code></dt>
+<dd><p>Print paging statistics
+</p>
+</dd>
+<dt><code class="code">--debug</code></dt>
+<dd><p>Print verbose internal information.
+</p>
+</dd>
+<dt><code class="code">--version</code></dt>
+<dd><p>Print <code class="code">lastcomm</code>&rsquo;s version number.
+</p>
+</dd>
+<dt><code class="code">--help</code></dt>
+<dd><p>Print <code class="code">lastcomm</code>&rsquo;s usage string and default locations of system
+files to standard output.
+</p></dd>
+</dl>
+
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="sa.html"><code class="code">sa</code></a>, Previous: <a href="accton.html"><code class="code">accton</code></a>, Up: <a href="index.html">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>
